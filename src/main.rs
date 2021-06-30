@@ -27,7 +27,7 @@ fn rgb_to_mce(r: i32, g: i32, b: i32) -> i32 {
     let mut hex: i32 = r / 16;
     hex = (hex << 8) + g / 16;
     hex = (hex << 8) + b / 16;
-    hex % 23
+    hex % 17
 }
 
 struct Pixel {
@@ -61,7 +61,7 @@ fn main() {
         .title("GenoaTileViz")
         .build();
     let mut renderable_pixels: Vec<Pixel> = Vec::new();
-    let mut tile_img = image::open(&Path::new("test-2.png")).unwrap();
+    let mut tile_img = image::open(&Path::new("seattle.png")).unwrap();
     for pixel in tile_img.pixels() {
         renderable_pixels.push(Pixel {
             color: rgb_to_mce(pixel.2[0] as i32, pixel.2[1] as i32, pixel.2[2] as i32),
@@ -133,7 +133,10 @@ fn main() {
 
                 15 => d3.draw_cube(Vector3::new(pixel.x as f32 * 0.1, 0.0, pixel.y as f32 * 0.1), 0.1, 0.1, 0.1,
                                    COLOR_15),
-                _ => d3.draw_cube(Vector3::new(pixel.x as f32 * 0.1, 0.0, pixel.y as f32 * 0.1), 0.1, 0.1, 0.1, Color::RED)
+                _ => {
+                    d3.draw_cube(Vector3::new(pixel.x as f32 * 0.1, 0.0, pixel.y as f32 * 0.1), 0.1, 0.1, 0.1, Color::RED);
+                  //  println!("INVALID: {}",&pixel.color)
+                }
             }
         }
     }
